@@ -31,4 +31,4 @@ jobs:
           echo "sshpass -p 'N2g6hYlTP^W^No9Zw9Vd' ssh -o StrictHostKeyChecking=no 'sunnypuppy13@s13.serv00.com' 'cd ~/ && touch test.file' " >> test.sh
 
       - name: exec ssh cmd
-        run: ./test.sh
+        run: chmod +x test.sh && ./test.sh
