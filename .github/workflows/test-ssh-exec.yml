@@ -25,10 +25,22 @@ jobs:
       - name: install sshpass
         run: sudo apt-get update && sudo apt-get install -y sshpass
 
-      - name: gen ssh cmd
+      - name: Check web process
         run: |
-          echo "#!/bin/bash" > test.sh
-          echo "sshpass -p 'N2g6hYlTP^W^No9Zw9Vd' ssh -o StrictHostKeyChecking=no 'sunnypuppy13@s13.serv00.com' 'cd ~/ && touch test.file' " >> test.sh
+          PROCESS_NAME="web"
+          PROCESS_EXISTS=$(sshpass -p 'N2g6hYlTP^W^No9Zw9Vd' ssh -o StrictHostKeyChecking=no 'sunnypuppy13@s13.serv00.com' "pgrep ${PROCESS_NAME} || echo '0'")
+          if [ "$PROCESS_EXISTS" -eq "0" ]; then
+            echo "Process ${PROCESS_NAME} does not exist."
+          else
+            echo "Process ${PROCESS_NAME} exists."
+          fi
 
-      - name: exec ssh cmd
-        run: chmod +x test.sh && ./test.sh
+      - name: Check s5 process
+        run: |
+          PROCESS_NAME="s5"
+          PROCESS_EXISTS=$(sshpass -p 'N2g6hYlTP^W^No9Zw9Vd' ssh -o StrictHostKeyChecking=no 'sunnypuppy13@s13.serv00.com' "pgrep ${PROCESS_NAME} || echo '0'")
+          if [ "$PROCESS_EXISTS" -eq "0" ]; then
+            echo "Process ${PROCESS_NAME} does not exist."
+          else
+            echo "Process ${PROCESS_NAME} exists."
+          fi
